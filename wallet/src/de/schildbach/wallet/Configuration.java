@@ -33,7 +33,7 @@ import android.text.format.DateUtils;
 import com.google.common.base.Strings;
 
 import de.schildbach.wallet.ExchangeRatesProvider.ExchangeRate;
-import de.schildbach.wallet_test.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach
@@ -45,7 +45,7 @@ public class Configuration
 	private final SharedPreferences prefs;
 	private final Resources res;
 
-	public static final String PREFS_KEY_BTC_PRECISION = "btc_precision";
+	public static final String PREFS_KEY_ERC_PRECISION = "btc_precision";
 	public static final String PREFS_KEY_OWN_NAME = "own_name";
 	public static final String PREFS_KEY_SEND_COINS_AUTOCLOSE = "send_coins_autoclose";
 	public static final String PREFS_KEY_CONNECTIVITY_NOTIFICATION = "connectivity_notification";
@@ -70,8 +70,8 @@ public class Configuration
 	public static final String PREFS_KEY_REMIND_BACKUP = "remind_backup";
 	private static final String PREFS_KEY_LAST_BACKUP = "last_backup";
 
-	private static final int PREFS_DEFAULT_BTC_SHIFT = 3;
-	private static final int PREFS_DEFAULT_BTC_PRECISION = 2;
+	private static final int PREFS_DEFAULT_ERC_SHIFT = 3;
+	private static final int PREFS_DEFAULT_ERC_PRECISION = 2;
 
 	private static final Logger log = LoggerFactory.getLogger(Configuration.class);
 
@@ -85,20 +85,20 @@ public class Configuration
 
 	private int getBtcPrecision()
 	{
-		final String precision = prefs.getString(PREFS_KEY_BTC_PRECISION, null);
+		final String precision = prefs.getString(PREFS_KEY_ERC_PRECISION, null);
 		if (precision != null)
 			return precision.charAt(0) - '0';
 		else
-			return PREFS_DEFAULT_BTC_PRECISION;
+			return PREFS_DEFAULT_ERC_PRECISION;
 	}
 
 	public int getBtcShift()
 	{
-		final String precision = prefs.getString(PREFS_KEY_BTC_PRECISION, null);
+		final String precision = prefs.getString(PREFS_KEY_ERC_PRECISION, null);
 		if (precision != null)
 			return precision.length() == 3 ? precision.charAt(2) - '0' : 0;
 		else
-			return PREFS_DEFAULT_BTC_SHIFT;
+			return PREFS_DEFAULT_ERC_SHIFT;
 	}
 
 	public Coin getBtcBase()

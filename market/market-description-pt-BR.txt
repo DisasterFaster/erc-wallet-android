@@ -4,7 +4,7 @@
 <b>CARACTERÍSTICAS</b>
 
 • Sem necessidade de cadastro, serviço web ou hospedagem! Esta carteira é descentralizada e "peer to peer".
-• Exibe a quantidade de Bitcoins em BTC, mBTC e µBTC.
+• Exibe a quantidade de Bitcoins em ERC, mERC e µERC.
 • Conversão para moedas nacionais.
 • Envio e recebimento de Bitcoins via NFC, códigos QR ou endereços Bitcoin.
 • Catálogo para guardar os endereços mais utilizados.
@@ -28,7 +28,7 @@ https://www.transifex.com/bitcoin-wallet/bitcoin-wallet/
 
 <b>TESTEMUNHOS</b>
 
-• Muitas carteiras móveis baseiam seu código em Bitcoin Wallet. Exemplos: blockchain.info e BTCX.
+• Muitas carteiras móveis baseiam seu código em Bitcoin Wallet. Exemplos: blockchain.info e ERCX.
 • Carteira mobile recomendada por https://bitcoin.org
 • Recomendado por BitPay.
 

@@ -31,7 +31,7 @@ import android.text.format.DateUtils;
 
 import com.google.common.io.BaseEncoding;
 
-import de.schildbach.wallet_test.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach
@@ -69,10 +69,10 @@ public final class Constants
 		public static final File EXTERNAL_WALLET_BACKUP_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
 		/** Filename of the manual key backup (old format, can only be read). */
-		public static final String EXTERNAL_WALLET_KEY_BACKUP = "bitcoin-wallet-keys" + FILENAME_NETWORK_SUFFIX;
+		public static final String EXTERNAL_WALLET_KEY_BACKUP = "europecoin-wallet-keys" + FILENAME_NETWORK_SUFFIX;
 
 		/** Filename of the manual wallet backup. */
-		public static final String EXTERNAL_WALLET_BACKUP = "bitcoin-wallet-backup" + FILENAME_NETWORK_SUFFIX;
+		public static final String EXTERNAL_WALLET_BACKUP = "europecoin-wallet-backup" + FILENAME_NETWORK_SUFFIX;
 
 		/** Filename of the block store for storing the chain. */
 		public static final String BLOCKCHAIN_FILENAME = "blockchain" + FILENAME_NETWORK_SUFFIX;
@@ -84,32 +84,29 @@ public final class Constants
 	/** Maximum size of backups. Files larger will be rejected. */
 	public static final long BACKUP_MAX_CHARS = 10000000;
 
-	private static final String BITEASY_API_URL_PROD = "https://api.biteasy.com/v2/btc/mainnet/";
-	private static final String BITEASY_API_URL_TEST = "https://api.biteasy.com/v2/btc/testnet/";
 	/** Base URL for blockchain API. */
-	public static final String BITEASY_API_URL = NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET) ? BITEASY_API_URL_PROD
-			: BITEASY_API_URL_TEST;
+	public static final String CRYPTOID_API_URL = "https://chainz.cryptoid.info/erc/api.dws";
 
 	/** Currency code for the wallet name resolver. */
-	public static final String WALLET_NAME_CURRENCY_CODE = NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET) ? "btc" : "tbtc";
+	public static final String WALLET_NAME_CURRENCY_CODE = "btc";
 
 	/** URL to fetch version alerts from. */
 	public static final String VERSION_URL = "https://wallet.schildbach.de/version";
 
 	/** MIME type used for transmitting single transactions. */
-	public static final String MIMETYPE_TRANSACTION = "application/x-btctx";
+	public static final String MIMETYPE_TRANSACTION = "application/x-erctx";
 
 	/** MIME type used for transmitting wallet backups. */
-	public static final String MIMETYPE_WALLET_BACKUP = "application/x-bitcoin-wallet-backup";
+	public static final String MIMETYPE_WALLET_BACKUP = "application/x-europecoin-wallet-backup";
 
 	/** Number of confirmations until a transaction is fully confirmed. */
 	public static final int MAX_NUM_CONFIRMATIONS = 7;
 
 	/** User-agent to use for network access. */
-	public static final String USER_AGENT = "Bitcoin Wallet";
+	public static final String USER_AGENT = "ERC Wallet";
 
 	/** Default currency to use if all default mechanisms fail. */
-	public static final String DEFAULT_EXCHANGE_CURRENCY = "USD";
+	public static final String DEFAULT_EXCHANGE_CURRENCY = "BTC";
 
 	/** Donation address for tip/donate action. */
 	public static final String DONATION_ADDRESS = NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET)

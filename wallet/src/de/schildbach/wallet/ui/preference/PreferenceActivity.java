@@ -20,7 +20,7 @@ package de.schildbach.wallet.ui.preference;
 import java.util.List;
 
 import android.view.MenuItem;
-import de.schildbach.wallet_test.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach

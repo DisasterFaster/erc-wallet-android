@@ -85,7 +85,7 @@ import de.schildbach.wallet.util.BitmapFragment;
 import de.schildbach.wallet.util.Qr;
 import de.schildbach.wallet.util.ThrottlingWalletChangeListener;
 import de.schildbach.wallet.util.WalletUtils;
-import de.schildbach.wallet_test.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach
@@ -554,7 +554,7 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
 	@Override
 	public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key)
 	{
-		if (Configuration.PREFS_KEY_BTC_PRECISION.equals(key) || Configuration.PREFS_KEY_REMIND_BACKUP.equals(key))
+		if (Configuration.PREFS_KEY_ERC_PRECISION.equals(key) || Configuration.PREFS_KEY_REMIND_BACKUP.equals(key))
 			updateView();
 	}
 

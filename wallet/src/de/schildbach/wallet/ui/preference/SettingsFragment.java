@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import de.schildbach.wallet.Configuration;
 import de.schildbach.wallet.WalletApplication;
 import de.schildbach.wallet.WalletBalanceWidgetProvider;
-import de.schildbach.wallet_test.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach
@@ -80,7 +80,7 @@ public final class SettingsFragment extends PreferenceFragment implements OnPref
 		backgroundThread.start();
 		backgroundHandler = new Handler(backgroundThread.getLooper());
 
-		btcPrecisionPreference = findPreference(Configuration.PREFS_KEY_BTC_PRECISION);
+		btcPrecisionPreference = findPreference(Configuration.PREFS_KEY_ERC_PRECISION);
 		btcPrecisionPreference.setOnPreferenceChangeListener(this);
 
 		trustedPeerPreference = findPreference(Configuration.PREFS_KEY_TRUSTED_PEER);

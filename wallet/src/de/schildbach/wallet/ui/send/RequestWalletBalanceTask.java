@@ -40,6 +40,7 @@ import org.bitcoinj.core.Sha256Hash;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.TransactionConfidence.ConfidenceType;
 import org.bitcoinj.core.TransactionOutput;
+import org.bitcoinj.script.ScriptBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,7 +54,7 @@ import com.google.common.base.Charsets;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.util.Io;
-import de.schildbach.wallet_test.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach
@@ -83,7 +84,7 @@ public final class RequestWalletBalanceTask
 		this.userAgent = userAgent;
 	}
 
-	public void requestWalletBalance(final Address... addresses)
+	public void requestWalletBalance(final Address address)
 	{
 		backgroundHandler.post(new Runnable()
 		{
@@ -92,13 +93,10 @@ public final class RequestWalletBalanceTask
 			{
 				org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
 
-				final StringBuilder url = new StringBuilder(Constants.BITEASY_API_URL);
-				url.append("outputs");
-				url.append("?per_page=MAX");
-				url.append("&operator=AND");
-				url.append("&spent_state=UNSPENT");
-				for (final Address address : addresses)
-					url.append("&address[]=").append(address.toBase58());
+				final StringBuilder url = new StringBuilder(Constants.CRYPTOID_API_URL);
+				url.append("?q=unspent");
+				url.append("&key=CHANGE_ME");    //Cryptoid API key
+				url.append("&active=").append(address.toString());
 
 				log.debug("trying to request wallet balance from {}", url);
 
@@ -130,18 +128,7 @@ public final class RequestWalletBalanceTask
 
 						final JSONObject json = new JSONObject(content.toString());
 
-						final int status = json.getInt("status");
-						if (status != 200)
-							throw new IOException("api status " + status + " when fetching unspent outputs");
-
-						final JSONObject jsonData = json.getJSONObject("data");
-
-						final JSONObject jsonPagination = jsonData.getJSONObject("pagination");
-
-						if (!"false".equals(jsonPagination.getString("next_page")))
-							throw new IOException("result set too big");
-
-						final JSONArray jsonOutputs = jsonData.getJSONArray("outputs");
+						JSONArray jsonOutputs = json.getJSONArray("unspent_outputs");
 
 						final Map<Sha256Hash, Transaction> transactions = new HashMap<Sha256Hash, Transaction>(jsonOutputs.length());
 
@@ -149,10 +136,10 @@ public final class RequestWalletBalanceTask
 						{
 							final JSONObject jsonOutput = jsonOutputs.getJSONObject(i);
 
-							final Sha256Hash uxtoHash = Sha256Hash.wrap(jsonOutput.getString("transaction_hash"));
-							final int uxtoIndex = jsonOutput.getInt("transaction_index");
-							final byte[] uxtoScriptBytes = Constants.HEX.decode(jsonOutput.getString("script_pub_key"));
-							final Coin uxtoValue = Coin.valueOf(Long.parseLong(jsonOutput.getString("value")));
+							final Sha256Hash uxtoHash = Sha256Hash.wrap(jsonOutput.getString("tx_hash"));
+							final int uxtoIndex = jsonOutput.getInt("tx_ouput_n");
+							final byte[] uxtoScriptBytes = ScriptBuilder.createOutputScript(address).getProgram();
+							final Coin uxtoValue = Coin.valueOf(jsonOutput.getLong("value"));
 
 							Transaction tx = transactions.get(uxtoHash);
 							if (tx == null)
