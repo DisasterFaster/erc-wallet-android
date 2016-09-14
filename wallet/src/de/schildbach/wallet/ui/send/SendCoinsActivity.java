@@ -40,6 +40,7 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity
 {
 	public static final String INTENT_EXTRA_PAYMENT_INTENT = "payment_intent";
 	public static final String INTENT_EXTRA_FEE_CATEGORY = "fee_category";
+	public static final String INTENT_EXTRA_TERM_DEPOSIT = "term_deposit";
 
 	public static void start(final Context context, final PaymentIntent paymentIntent, final @Nullable FeeCategory feeCategory, final int intentFlags)
 	{

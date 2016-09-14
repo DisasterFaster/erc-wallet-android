@@ -36,6 +36,7 @@
 	<string name="wallet_transactions_options_filter_all">All payments</string>
 	<string name="wallet_transactions_options_filter_received">Received payments</string>
 	<string name="wallet_transactions_options_filter_sent">Sent payments</string>
+	<string name="wallet_transactions_options_filter_termdeposit">Term deposits</string>
 	<string name="wallet_options_safety_menu">Safety</string>
 	<string name="wallet_options_encrypt_keys_set">Set spending PIN</string>
 	<string name="wallet_options_encrypt_keys_change">Change spending PIN</string>
@@ -54,12 +55,22 @@
 	<string name="wallet_version_dialog_button_binary">Download</string>
 	<string name="wallet_old_sdk_dialog_title">Android version is out of date</string>
 	<string name="wallet_old_sdk_dialog_message">Chances are that one of the next releases of Europecoin Wallet will not support your device any more. In some cases, it can get difficult to spend coins on this device.\n\nUnless you know what you are doing, it is recommended to move out your coins soon.</string>
-	<string name="send_coins_activity_title">Send Europecoins</string>
+	<string name="send_coins_activity_title">Send Europecoin</string>
 	<string name="send_coins_fragment_request_payment_request_progress">Fetching signature from %s…</string>
 	<string name="send_coins_fragment_request_payment_request_failed_title">Fetching signature failed</string>
 	<string name="send_coins_fragment_request_payment_request_wrong_signature">Wrong signature!</string>
 	<string name="send_coins_fragment_payee_verified_by">verified by: %s</string>
 	<string name="send_coins_fragment_payee_verified_by_unknown">unknown</string>
+	<string name="send_coins_fragment_deposit_lock_label">For Period</string>
+	<string-array name="send_coins_fragment_deposit_length">
+		<item>Months</item>
+		<item>Weeks</item>
+		<item>Days</item>
+		<item>Blocks</item>
+	</string-array>
+	<string name="send_coins_deposit_title">Deposit Europecoin</string>
+	<string name="send_coins_fragment_deposit_address_label">Deposit to</string>
+
 	<string name="send_coins_fragment_receiving_address_label">Pay to</string>
 	<string name="send_coins_fragment_receiving_address_hint">type address or name</string>
 	<string name="send_coins_fragment_receiving_address_error">Invalid Europecoin address!</string>
@@ -93,6 +104,7 @@
 	<string name="send_coins_options_fee_category_normal">Normal</string>
 	<string name="send_coins_options_fee_category_priority">Priority</string>
 	<string name="send_coins_options_empty">Empty wallet</string>
+	<string name="deposit_coins_activity_title">Deposit</string>
 	<string name="raise_fee_dialog_title">Raise network fee</string>
 	<string name="raise_fee_dialog_message">Do you want to raise the fee of this payment by %s? It will make the payment confirm quicker.</string>
 	<string name="raise_fee_dialog_state_decrypting">Decrypting…</string>
@@ -325,6 +337,7 @@
 	<string name="button_set_as_default">Set as default</string>
 	<string name="button_request_coins">Request coins</string>
 	<string name="button_send_coins">Send coins</string>
+	<string name="button_deposit_coins">Deposit coins</string>
 	<string name="button_scan">Scan</string>
 	<string name="button_settings">Settings</string>
 	<string name="action_show_qr">Show QR code</string>

@@ -49,6 +49,10 @@
 		</menu>
 	</item>
 	<item
+		android:id="@+id/wallet_options_deposit"
+		android:showAsAction="never"
+		android:title="@string/deposit_coins_activity_title"/>
+	<item
 		android:id="@+id/wallet_options_exchange_rates"
 		android:showAsAction="never"
 		android:title="@string/exchange_rates_activity_title"/>

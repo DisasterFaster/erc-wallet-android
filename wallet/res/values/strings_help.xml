@@ -71,6 +71,36 @@
 		</p>
 	]]>
 	</string>
+	<string name="help_deposit_coins">
+<![CDATA[
+		<p>
+			You have initiated the process of depositing coins.
+			You came here through the main screen.
+		</p>
+		<p>
+			First, you enter the Europecoin address to deposit to.
+			The address will autocomplete from known entries in your address book.
+			You can also scan QR codes with Europecoin addresses or Europecoin requests by pressing the QR button in the action bar.
+		</p>
+		<p>
+			Next, you can see how many Europecoins you can spend at the moment.
+			Any difference to the balance from the main screen is still unconfirmed and can thus not yet be spent.
+		</p>
+		<p>
+			Last, you enter the amount to deposit.
+		</p>
+		<p>
+			You can enter a payment while being offline.
+			It will be sent on next restart of Europecoin Wallet.
+			If you want a payment to be processed as fast as possible, make sure you are well connected (i.e. on a WLAN).
+		</p>
+		<p>
+			Note:
+			Payments are irreversible!
+			Always check the receiving address.
+		</p>
+	]]>
+	</string>
 	<string name="help_safety">
 <![CDATA[
 		<p>

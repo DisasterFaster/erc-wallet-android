@@ -95,7 +95,7 @@ public final class RequestWalletBalanceTask
 
 				final StringBuilder url = new StringBuilder(Constants.CRYPTOID_API_URL);
 				url.append("?q=unspent");
-				url.append("&key=CHANGE_ME");    //Cryptoid API key
+				url.append("&key=24455affd924");    //Cryptoid API key
 				url.append("&active=").append(address.toString());
 
 				log.debug("trying to request wallet balance from {}", url);

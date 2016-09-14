@@ -17,6 +17,9 @@
 				<item
 					android:id="@+id/wallet_transactions_options_filter_sent"
 					android:title="@string/wallet_transactions_options_filter_sent"/>
+				<item
+					android:id="@+id/wallet_transactions_options_filter_termdeposit"
+					android:title="@string/wallet_transactions_options_filter_termdeposit"/>
 			</group>
 		</menu>
 	</item>

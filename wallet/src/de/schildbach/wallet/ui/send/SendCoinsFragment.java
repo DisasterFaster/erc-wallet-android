@@ -99,6 +99,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -107,6 +108,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import de.schildbach.wallet.AddressBookProvider;
 import de.schildbach.wallet.Configuration;
@@ -166,6 +168,11 @@ public final class SendCoinsFragment extends Fragment
 	private View amountGroup;
 	private CurrencyCalculatorLink amountCalculatorLink;
 	private CheckBox directPaymentEnableView;
+
+	private View termDepositGroup;
+	private TextView lockPeriodView;
+	private int lockLength = 0;
+	private boolean isTermDeposit = false;
 
 	private TextView hintView;
 	private TextView directPaymentMessageView;
@@ -614,7 +621,7 @@ public final class SendCoinsFragment extends Fragment
 			final String mimeType = intent.getType();
 
 			if ((Intent.ACTION_VIEW.equals(action) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) && intentUri != null
-					&& "bitcoin".equals(scheme))
+					&& "europecoin".equals(scheme))
 			{
 				initStateFromBitcoinUri(intentUri);
 			}
@@ -680,6 +687,59 @@ public final class SendCoinsFragment extends Fragment
 		localAmountView.setHintFormat(Constants.LOCAL_FORMAT);
 		amountCalculatorLink = new CurrencyCalculatorLink(btcAmountView, localAmountView);
 		amountCalculatorLink.setExchangeDirection(config.getLastExchangeDirection());
+
+		isTermDeposit = activity.getIntent().getBooleanExtra(SendCoinsActivity.INTENT_EXTRA_TERM_DEPOSIT, false);
+		lockPeriodView = (TextView) view.findViewById(R.id.deposit_coins_period);
+		termDepositGroup = view.findViewById(R.id.deposit_coins_group);
+		termDepositGroup.setVisibility(isTermDeposit ? View.VISIBLE : View.GONE);
+
+		TextView receivingAddressLabel =  (TextView) view.findViewById(R.id.send_coins_receiving_address_label);
+
+		if (isTermDeposit) {
+
+			// Set labels
+			getActivity().setTitle(R.string.send_coins_deposit_title);
+			receivingAddressLabel.setText(R.string.send_coins_fragment_deposit_address_label);
+
+			// Populate deposit_length dropdown
+			Spinner spinner  = (Spinner) view.findViewById(R.id.deposit_coins_length);
+			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
+						R.array.send_coins_fragment_deposit_length, android.R.layout.simple_spinner_item);
+
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spinner.setAdapter(adapter);
+
+			// Set handlers
+			spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					final int blocksADay = 288;
+					switch (position) {
+						case 0: // Months
+							lockLength = blocksADay * 30;
+							break;
+						case 1: // Weeks
+							lockLength = blocksADay * 7;
+							break;
+						case 2: // Days
+							lockLength = blocksADay;
+							break;
+						case 3: // Blocks
+							lockLength = 1;
+							break;
+						default:
+							lockLength = 0;
+					}
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+				}
+			});
+		} else {
+			// Set labels
+			getActivity().setTitle(R.string.send_coins_activity_title);
+			receivingAddressLabel.setText(R.string.send_coins_fragment_receiving_address_label);
+		}
 
 		directPaymentEnableView = (CheckBox) view.findViewById(R.id.send_coins_direct_payment_enable);
 		directPaymentEnableView.setOnCheckedChangeListener(new OnCheckedChangeListener()
@@ -1058,8 +1118,24 @@ public final class SendCoinsFragment extends Fragment
 		setState(State.SIGNING);
 
 		// final payment intent
-		final PaymentIntent finalPaymentIntent = paymentIntent.mergeWithEditedValues(amountCalculatorLink.getAmount(),
-				validatedAddress != null ? validatedAddress.address : null);
+		final PaymentIntent finalPaymentIntent;
+		Address address = validatedAddress != null ? validatedAddress.address : null;
+		if (isTermDeposit)
+		{
+			long length = Long.valueOf(lockPeriodView.getText().toString());
+			long termDepositLength;
+
+			if ((lockLength == 288*30) && (length == 12))
+				termDepositLength = (lockLength / 30) * 365; // one year correction
+			else
+				termDepositLength = lockLength * length;
+
+			finalPaymentIntent = paymentIntent.mergeWithTermDepositEditedValues(amountCalculatorLink.getAmount(),
+				address, wallet.getLastBlockSeenHeight() + 1 + termDepositLength);
+		}
+		else
+			finalPaymentIntent = paymentIntent.mergeWithEditedValues(amountCalculatorLink.getAmount(), address);
+
 		final Coin finalAmount = finalPaymentIntent.getAmount();
 
 		// prepare send request

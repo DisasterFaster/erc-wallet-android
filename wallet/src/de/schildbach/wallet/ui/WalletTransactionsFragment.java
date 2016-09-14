@@ -95,7 +95,7 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
 {
 	public enum Direction
 	{
-		RECEIVED, SENT
+		RECEIVED, SENT, TERM_DEPOSITED
 	}
 
 	private AbstractWalletActivity activity;
@@ -250,6 +250,8 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
 			menu.findItem(R.id.wallet_transactions_options_filter_received).setChecked(true);
 		else if (direction == Direction.SENT)
 			menu.findItem(R.id.wallet_transactions_options_filter_sent).setChecked(true);
+		else if (direction == Direction.TERM_DEPOSITED)
+			menu.findItem(R.id.wallet_transactions_options_filter_termdeposit).setChecked(true);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -264,6 +266,8 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
 			direction = Direction.RECEIVED;
 		else if (itemId == R.id.wallet_transactions_options_filter_sent)
 			direction = Direction.SENT;
+		else if (itemId == R.id.wallet_transactions_options_filter_termdeposit)
+			direction = Direction.TERM_DEPOSITED;
 		else
 			return false;
 
@@ -326,7 +330,7 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
 					case R.id.wallet_transactions_context_browse:
 						if (!txRotation)
 							startActivity(
-									new Intent(Intent.ACTION_VIEW, Uri.withAppendedPath(config.getBlockExplorer(), "tx/" + tx.getHashAsString())));
+									new Intent(Intent.ACTION_VIEW, Uri.withAppendedPath(config.getBlockExplorer(), "tx.dws?" + tx.getHashAsString() + ".htm")));
 						else
 							startActivity(new Intent(Intent.ACTION_VIEW, KEY_ROTATION_URI));
 						return true;
@@ -479,17 +483,24 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
 		{
 			org.bitcoinj.core.Context.propagate(Constants.CONTEXT);
 
-			final Set<Transaction> transactions = wallet.getTransactions(true);
-			final List<Transaction> filteredTransactions = new ArrayList<Transaction>(transactions.size());
+			final Set<Transaction> transactions;
+			final List<Transaction> filteredTransactions;
 
-			for (final Transaction tx : transactions)
-			{
-				final boolean sent = tx.getValue(wallet).signum() < 0;
-				final boolean isInternal = tx.getPurpose() == Purpose.KEY_ROTATION;
+			if (direction == Direction.TERM_DEPOSITED) {
+				filteredTransactions = wallet.getTermDepositTransactions();
+			} else {
+				transactions = wallet.getTransactions(true);
+				filteredTransactions = new ArrayList<>(transactions.size());
 
-				if ((direction == Direction.RECEIVED && !sent && !isInternal) || direction == null
-						|| (direction == Direction.SENT && sent && !isInternal))
-					filteredTransactions.add(tx);
+				for (final Transaction tx : transactions) {
+					final boolean sent = tx.getValue(wallet).signum() < 0;
+					final boolean isInternal = tx.getPurpose() == Purpose.KEY_ROTATION;
+
+					if ((direction == Direction.RECEIVED && !sent && !isInternal) || direction == null
+							|| (direction == Direction.SENT && sent && !isInternal)
+							|| (direction == Direction.TERM_DEPOSITED && !sent && !isInternal))
+						filteredTransactions.add(tx);
+				}
 			}
 
 			Collections.sort(filteredTransactions, TRANSACTION_COMPARATOR);

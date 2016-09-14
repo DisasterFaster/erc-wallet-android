@@ -286,6 +286,10 @@ public final class WalletActivity extends AbstractWalletActivity implements Acti
 				handleSendCoins();
 				return true;
 
+			case R.id.wallet_options_deposit:
+				handleSendCoins(true);
+				return true;
+
 			case R.id.wallet_options_scan:
 				handleScan();
 				return true;
@@ -341,7 +345,14 @@ public final class WalletActivity extends AbstractWalletActivity implements Acti
 
 	public void handleSendCoins()
 	{
-		startActivity(new Intent(this, SendCoinsActivity.class));
+		handleSendCoins(false);
+	}
+
+	public void handleSendCoins(final boolean termDeposit)
+	{
+		Intent intent = new Intent(this, SendCoinsActivity.class);
+		intent.putExtra(SendCoinsActivity.INTENT_EXTRA_TERM_DEPOSIT, termDeposit);
+		startActivity(intent);
 	}
 
 	public void handleScan()

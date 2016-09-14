@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:orientation="vertical"
-	tools:ignore="RequiredSize" >
+	tools:ignore="RequiredSize"
+	android:layout_height="match_parent"
+	android:layout_width="wrap_content">
 
 	<LinearLayout
 		android:id="@+id/send_coins_payee_group"
@@ -12,6 +14,7 @@
 		android:orientation="vertical" >
 
 		<TextView
+			android:id="@+id/send_coins_receiving_address_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="@dimen/list_entry_padding_horizontal_lax"
@@ -134,6 +137,50 @@
 					tools:ignore="TextFields" />
 			</de.schildbach.wallet.ui.CurrencyAmountView>
 		</LinearLayout>
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/deposit_coins_group"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:orientation="vertical"
+		android:visibility="gone" >
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="@dimen/list_entry_padding_horizontal_lax"
+			android:layout_marginRight="@dimen/list_entry_padding_horizontal_lax"
+			android:text="@string/send_coins_fragment_deposit_lock_label"
+			android:textSize="@dimen/font_size_small"
+			android:textStyle="bold" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<EditText
+				android:id="@+id/deposit_coins_period"
+				android:layout_width="0px"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:imeOptions="flagNoExtractUi"
+				android:layout_marginTop="8dp"
+				android:singleLine="true"
+				android:inputType="numberDecimal"
+				android:text="12" />
+
+			<Spinner
+				android:id="@+id/deposit_coins_length"
+				android:layout_width="0px"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:layout_marginTop="8dp"
+				android:spinnerMode="dropdown" />
+		</LinearLayout>
+
 	</LinearLayout>
 
 	<CheckBox

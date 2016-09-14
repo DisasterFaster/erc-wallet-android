@@ -280,6 +280,17 @@ public final class PaymentIntent implements Parcelable
 		return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
 	}
 
+	public PaymentIntent mergeWithTermDepositEditedValues(@Nullable final Coin editedAmount, @Nullable final Address editedAddress, int releaseBlockNum)
+	{
+		final Output[] outputs;
+		checkArgument(editedAmount != null);
+		checkArgument(editedAddress != null);
+
+		outputs = buildTermDepositTo(editedAmount, editedAddress, releaseBlockNum);
+
+		return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
+	}
+
 	public SendRequest toSendRequest()
 	{
 		final Transaction transaction = new Transaction(Constants.NETWORK_PARAMETERS);
@@ -291,6 +302,11 @@ public final class PaymentIntent implements Parcelable
 	private static Output[] buildSimplePayTo(final Coin amount, final Address address)
 	{
 		return new Output[] { new Output(amount, ScriptBuilder.createOutputScript(address)) };
+	}
+
+	private static Output[] buildTermDepositTo(final Coin amount, final Address address, int releaseBlockNum)
+	{
+		return new Output[] { new Output(amount, ScriptBuilder.createTermDepositOutputScript(address, releaseBlockNum)) };
 	}
 
 	public boolean hasPayee()
@@ -401,9 +417,9 @@ public final class PaymentIntent implements Parcelable
 	/**
 	 * Check if given payment intent is only extending on <i>this</i> one, that is it does not alter any of the fields.
 	 * Address and amount fields must be equal, respectively (non-existence included).
-	 * 
+	 *
 	 * Alternatively, a BIP21+BIP72 request can provide a hash of the BIP70 request.
-	 * 
+	 *
 	 * @param other
 	 *            payment intent that is checked if it extends this one
 	 * @return true if it extends

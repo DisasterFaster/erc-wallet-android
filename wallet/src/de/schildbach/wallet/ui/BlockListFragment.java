@@ -186,7 +186,7 @@ public final class BlockListFragment extends Fragment implements BlockListAdapte
 				{
 					case R.id.blocks_context_browse:
 						startActivity(new Intent(Intent.ACTION_VIEW,
-								Uri.withAppendedPath(config.getBlockExplorer(), "block/" + block.getHeader().getHashAsString())));
+								Uri.withAppendedPath(config.getBlockExplorer(), "block.dws?" + block.getHeader().getHashAsString() + ".htm")));
 						return true;
 				}
 				return false;
