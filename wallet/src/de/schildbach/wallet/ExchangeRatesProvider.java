@@ -39,6 +39,8 @@ import javax.annotation.Nullable;
 import org.bitcoinj.core.Coin;
 import org.bitcoinj.utils.Fiat;
 import org.bitcoinj.utils.MonetaryFormat;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,11 +111,14 @@ public class ExchangeRatesProvider extends ContentProvider
 	private static final String[] BITCOINAVERAGE_FIELDS = new String[] { "24h_avg", "last" };
 	private static final String BITCOINAVERAGE_SOURCE = "BitcoinAverage.com";
 
+	private static final URL COINMARKET_URL;
+
 	static
 	{
 		try
 		{
 			BITCOINAVERAGE_URL = new URL("https://api.bitcoinaverage.com/custom/abw");
+			COINMARKET_URL = new URL("https://api.coinmarketcap.com/v1/ticker/Europecoin/");
 		}
 		catch (final MalformedURLException x)
 		{
@@ -280,6 +285,61 @@ public class ExchangeRatesProvider extends ContentProvider
 		throw new UnsupportedOperationException();
 	}
 
+	private static Double getCoinValueInBTC(final URL url, final String userAgent) throws Exception
+	{
+		HttpURLConnection connection = null;
+		Reader reader = null;
+		Double result = 0.0;
+
+		try
+		{
+			connection = (HttpURLConnection) url.openConnection();
+
+			connection.setInstanceFollowRedirects(false);
+			connection.setConnectTimeout(Constants.HTTP_TIMEOUT_MS);
+			connection.setReadTimeout(Constants.HTTP_TIMEOUT_MS);
+			connection.addRequestProperty("User-Agent", userAgent);
+			connection.connect();
+
+			final int responseCode = connection.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				reader = new InputStreamReader(new BufferedInputStream(connection.getInputStream(), 1024), Charsets.UTF_8);
+				final StringBuilder content = new StringBuilder();
+				Io.copy(reader, content);
+
+				final JSONArray json = new JSONArray(content.toString());
+				final JSONObject jsonTicker = json.getJSONObject(0);
+				result = jsonTicker.getDouble("price_btc");
+			}
+		}
+		catch (final JSONException x) {
+			throw new Exception("problem parsing json from " + url, x);
+		}
+		catch (final IOException x)
+		{
+			throw new Exception("problem querying coin value from " + url, x);
+		}
+		finally
+		{
+			if (reader != null)
+			{
+				try
+				{
+					reader.close();
+				}
+				catch (final IOException x)
+				{
+					// swallow
+				}
+			}
+
+			if (connection != null)
+				connection.disconnect();
+		}
+
+		return result;
+	}
+
 	private static Map<String, ExchangeRate> requestExchangeRates(final URL url, final String userAgent, final String source, final String... fields)
 	{
 		HttpURLConnection connection = null;
@@ -288,6 +348,7 @@ public class ExchangeRatesProvider extends ContentProvider
 		try
 		{
 			final Stopwatch watch = Stopwatch.createStarted();
+			Double btcRate = getCoinValueInBTC(COINMARKET_URL, userAgent);
 
 			connection = (HttpURLConnection) url.openConnection();
 
@@ -324,12 +385,15 @@ public class ExchangeRatesProvider extends ContentProvider
 
 						for (final String field : fields)
 						{
-							final String rateStr = o.optString(field, null);
+							String rateStr = o.optString(field, null);
 
 							if (rateStr != null)
 							{
 								try
 								{
+									double rateForBTC = Double.parseDouble(rateStr);
+									rateStr = String.format(Locale.US, "%.8f", rateForBTC * btcRate);
+
 									final Fiat rate = Fiat.parseFiat(currencyCode, rateStr);
 
 									if (rate.signum() > 0)

@@ -130,17 +130,17 @@ public final class CurrencyAmountView extends FrameLayout
 	{
 		if (MonetaryFormat.CODE_BTC.equals(currencyCode))
 		{
-			currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_btc);
+			currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_erc);
 			localCurrencyCode = null;
 		}
 		else if (MonetaryFormat.CODE_MBTC.equals(currencyCode))
 		{
-			currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_mbtc);
+			currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_merc);
 			localCurrencyCode = null;
 		}
 		else if (MonetaryFormat.CODE_UBTC.equals(currencyCode))
 		{
-			currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_ubtc);
+			currencySymbolDrawable = getResources().getDrawable(R.drawable.currency_symbol_uerc);
 			localCurrencyCode = null;
 		}
 		else if (currencyCode != null) // fiat

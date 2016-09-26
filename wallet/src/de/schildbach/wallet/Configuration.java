@@ -70,8 +70,8 @@ public class Configuration
 	public static final String PREFS_KEY_REMIND_BACKUP = "remind_backup";
 	private static final String PREFS_KEY_LAST_BACKUP = "last_backup";
 
-	private static final int PREFS_DEFAULT_ERC_SHIFT = 3;
-	private static final int PREFS_DEFAULT_ERC_PRECISION = 2;
+	private static final int PREFS_DEFAULT_ERC_SHIFT = 0;
+	private static final int PREFS_DEFAULT_ERC_PRECISION = 8;
 
 	private static final Logger log = LoggerFactory.getLogger(Configuration.class);
 

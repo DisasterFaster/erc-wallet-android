@@ -280,7 +280,7 @@ public final class PaymentIntent implements Parcelable
 		return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
 	}
 
-	public PaymentIntent mergeWithTermDepositEditedValues(@Nullable final Coin editedAmount, @Nullable final Address editedAddress, int releaseBlockNum)
+	public PaymentIntent mergeWithTermDepositEditedValues(@Nullable final Coin editedAmount, @Nullable final Address editedAddress, long releaseBlockNum)
 	{
 		final Output[] outputs;
 		checkArgument(editedAmount != null);
@@ -304,7 +304,7 @@ public final class PaymentIntent implements Parcelable
 		return new Output[] { new Output(amount, ScriptBuilder.createOutputScript(address)) };
 	}
 
-	private static Output[] buildTermDepositTo(final Coin amount, final Address address, int releaseBlockNum)
+	private static Output[] buildTermDepositTo(final Coin amount, final Address address, long releaseBlockNum)
 	{
 		return new Output[] { new Output(amount, ScriptBuilder.createTermDepositOutputScript(address, releaseBlockNum)) };
 	}

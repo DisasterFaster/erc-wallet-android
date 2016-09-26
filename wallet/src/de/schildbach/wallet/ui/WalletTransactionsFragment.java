@@ -495,10 +495,10 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
 				for (final Transaction tx : transactions) {
 					final boolean sent = tx.getValue(wallet).signum() < 0;
 					final boolean isInternal = tx.getPurpose() == Purpose.KEY_ROTATION;
+					final boolean deposit = tx.isDepositLocked();
 
-					if ((direction == Direction.RECEIVED && !sent && !isInternal) || direction == null
-							|| (direction == Direction.SENT && sent && !isInternal)
-							|| (direction == Direction.TERM_DEPOSITED && !sent && !isInternal))
+					if ((direction == Direction.RECEIVED && !sent && !isInternal && !deposit) || direction == null
+							|| (direction == Direction.SENT && sent && !isInternal))
 						filteredTransactions.add(tx);
 				}
 			}

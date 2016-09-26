@@ -155,6 +155,27 @@ public class WalletUtils
 		return null;
 	}
 
+	public static int getTermDepositReleaseBlock(final Transaction tx, final Wallet wallet)
+	{
+		for (final TransactionOutput output : tx.getOutputs())
+		{
+			try
+			{
+				if (output.isMine(wallet))
+				{
+					final Script script = output.getScriptPubKey();
+					return script.GetTermDepositReleaseBlock();
+				}
+			}
+			catch (final ScriptException x)
+			{
+				// swallow
+			}
+		}
+
+		return -1;
+	}
+
 	public static Wallet restoreWalletFromProtobufOrBase58(final InputStream is, final NetworkParameters expectedNetworkParameters) throws IOException
 	{
 		is.mark((int) Constants.BACKUP_MAX_CHARS);

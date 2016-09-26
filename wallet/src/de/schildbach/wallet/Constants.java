@@ -88,7 +88,7 @@ public final class Constants
 	public static final String CRYPTOID_API_URL = "https://chainz.cryptoid.info/erc/api.dws";
 
 	/** Currency code for the wallet name resolver. */
-	public static final String WALLET_NAME_CURRENCY_CODE = "btc";
+	public static final String WALLET_NAME_CURRENCY_CODE = "erc";
 
 	/** URL to fetch version alerts from. */
 	public static final String VERSION_URL = "https://wallet.schildbach.de/version";
@@ -106,14 +106,13 @@ public final class Constants
 	public static final String USER_AGENT = "ERC Wallet";
 
 	/** Default currency to use if all default mechanisms fail. */
-	public static final String DEFAULT_EXCHANGE_CURRENCY = "BTC";
+	public static final String DEFAULT_EXCHANGE_CURRENCY = "USD";
 
 	/** Donation address for tip/donate action. */
-	public static final String DONATION_ADDRESS = NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET)
-			? "1Hf8g3XZnDKdCy6FDQt1DrcWz3GeiYLDRS" : null;
+	public static final String DONATION_ADDRESS = "EaJwC6TN8qB31dioUyzcb3xfxupWmtPZ1j";
 
 	/** Recipient e-mail address for reports. */
-	public static final String REPORT_EMAIL = "bitcoin.wallet.developers@gmail.com";
+	public static final String REPORT_EMAIL = "cuuupr@outlook.com";
 
 	/** Subject line for manually reported issues. */
 	public static final String REPORT_SUBJECT_ISSUE = "Reported issue";

@@ -86,7 +86,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 	private final int colorBackground, colorBackgroundSelected;
 	private final int colorSignificant, colorLessSignificant, colorInsignificant;
-	private final int colorValuePositve, colorValueNegative;
+	private final int colorValuePositve, colorValueNegative, colorValueDeposit;
 	private final int colorError;
 	private final String textCoinBase;
 	private final String textInternal;
@@ -105,17 +105,21 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 	{
 		private final Coin value;
 		private final boolean sent;
+		private final boolean deposit;
+		private final int releaseBlock;
 		private final boolean showFee;
 		@Nullable
 		private final Address address;
 		@Nullable
 		private final String addressLabel;
 
-		private TransactionCacheEntry(final Coin value, final boolean sent, final boolean showFee, final @Nullable Address address,
+		private TransactionCacheEntry(final Coin value, final boolean sent, final boolean deposit, final int releaseBlock, final boolean showFee, final @Nullable Address address,
 				final @Nullable String addressLabel)
 		{
 			this.value = value;
 			this.sent = sent;
+			this.deposit = deposit;
+			this.releaseBlock = releaseBlock;
 			this.showFee = showFee;
 			this.address = address;
 			this.addressLabel = addressLabel;
@@ -141,6 +145,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 		colorInsignificant = res.getColor(R.color.fg_insignificant);
 		colorValuePositve = res.getColor(R.color.fg_value_positive);
 		colorValueNegative = res.getColor(R.color.fg_value_negative);
+		colorValueDeposit = res.getColor(R.color.fg_value_deposit);
 		colorError = res.getColor(R.color.fg_error);
 		textCoinBase = context.getString(R.string.wallet_transactions_fragment_coinbase);
 		textInternal = context.getString(R.string.symbol_internal) + " " + context.getString(R.string.wallet_transactions_fragment_internal);
@@ -394,6 +399,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 			{
 				final Coin value = tx.getValue(wallet);
 				final boolean sent = value.signum() < 0;
+				final boolean deposit = tx.isDepositLocked();
+				final int releaseBlock = WalletUtils.getTermDepositReleaseBlock(tx, wallet);
 				final boolean showFee = sent && fee != null && !fee.isZero();
 				final Address address;
 				if (sent)
@@ -402,7 +409,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 					address = WalletUtils.getWalletAddressOfReceived(tx, wallet);
 				final String addressLabel = address != null ? AddressBookProvider.resolveLabel(context, address.toBase58()) : null;
 
-				txCache = new TransactionCacheEntry(value, sent, showFee, address, addressLabel);
+				txCache = new TransactionCacheEntry(value, sent, deposit, releaseBlock, showFee, address, addressLabel);
 				transactionCache.put(tx.getHash(), txCache);
 			}
 
@@ -417,7 +424,12 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 			{
 				textColor = colorSignificant;
 				lessSignificantColor = colorLessSignificant;
-				valueColor = txCache.sent ? colorValueNegative : colorValuePositve;
+				if (txCache.sent)
+					valueColor = colorValueNegative;
+				else if (txCache.deposit)
+					valueColor = colorValueDeposit;
+				else
+					valueColor = colorValuePositve;
 			}
 			else
 			{
@@ -620,6 +632,15 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 			{
 				extendMessageView.setVisibility(View.VISIBLE);
 				messageView.setText(R.string.transaction_row_message_received_direct);
+				messageView.setTextColor(colorInsignificant);
+			}
+			else if (!txCache.sent && txCache.deposit)
+			{
+				final StringBuilder msg = new StringBuilder();
+				msg.append(context.getString(R.string.transaction_row_message_received_unconfirmed_time_locked, txCache.releaseBlock));
+
+				extendMessageView.setVisibility(View.VISIBLE);
+				messageView.setText(msg);
 				messageView.setTextColor(colorInsignificant);
 			}
 			else if (!txCache.sent && txCache.value.compareTo(Transaction.MIN_NONDUST_OUTPUT) < 0)

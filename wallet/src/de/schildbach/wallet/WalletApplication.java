@@ -536,9 +536,9 @@ public class WalletApplication extends Application
 	{
 		final int memoryClass = activityManager.getMemoryClass();
 		if (memoryClass <= Constants.MEMORY_CLASS_LOWEND)
-			return 4;
+			return 2;
 		else
-			return 6;
+			return 3;
 	}
 
 	public static void scheduleStartBlockchainService(final Context context)
