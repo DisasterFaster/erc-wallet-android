@@ -121,8 +121,10 @@ public final class WalletActivity extends AbstractWalletActivity implements Acti
 
 		setContentView(R.layout.wallet_content);
 
-		if (savedInstanceState == null)
-			checkAlerts();
+		// Here is update checking functionality
+		// TODO: fix it later
+		// if (savedInstanceState == null)
+		// 	checkAlerts();
 
 		config.touchLastUsed();
 
