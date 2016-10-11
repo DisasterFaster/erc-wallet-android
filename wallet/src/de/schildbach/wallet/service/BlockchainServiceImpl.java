@@ -96,7 +96,7 @@ import de.schildbach.wallet.ui.WalletActivity;
 import de.schildbach.wallet.util.CrashReporter;
 import de.schildbach.wallet.util.ThrottlingWalletChangeListener;
 import de.schildbach.wallet.util.WalletUtils;
-import madzebra.erc.wallet.R;
+import eu.bitcoinsulting.ercv3.R;
 
 /**
  * @author Andreas Schildbach

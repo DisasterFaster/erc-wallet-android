@@ -42,7 +42,7 @@ import com.google.common.collect.Iterables;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.util.ViewPagerTabs;
-import madzebra.erc.wallet.R;
+import eu.bitcoinsulting.ercv3.R;
 
 /**
  * @author Andreas Schildbach

@@ -26,7 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
-import madzebra.erc.wallet.R;
+import eu.bitcoinsulting.ercv3.R;
 
 /**
  * @author Andreas Schildbach

@@ -85,7 +85,7 @@ import de.schildbach.wallet.util.BitmapFragment;
 import de.schildbach.wallet.util.Qr;
 import de.schildbach.wallet.util.ThrottlingWalletChangeListener;
 import de.schildbach.wallet.util.WalletUtils;
-import madzebra.erc.wallet.R;
+import eu.bitcoinsulting.ercv3.R;
 
 /**
  * @author Andreas Schildbach
@@ -493,9 +493,9 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
 				filteredTransactions = new ArrayList<>(transactions.size());
 
 				for (final Transaction tx : transactions) {
-					final boolean sent = tx.getValue(wallet).signum() < 0;
+					final boolean deposit = tx.isDepositLocked(wallet);
+					final boolean sent = (tx.getValue(wallet).signum() < 0) && !deposit;
 					final boolean isInternal = tx.getPurpose() == Purpose.KEY_ROTATION;
-					final boolean deposit = tx.isDepositLocked();
 
 					if ((direction == Direction.RECEIVED && !sent && !isInternal && !deposit) || direction == null
 							|| (direction == Direction.SENT && sent && !isInternal))

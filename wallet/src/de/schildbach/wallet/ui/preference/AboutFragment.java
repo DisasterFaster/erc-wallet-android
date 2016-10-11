@@ -28,8 +28,8 @@ import android.preference.PreferenceFragment;
 
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;
-import madzebra.erc.wallet.BuildConfig;
-import madzebra.erc.wallet.R;
+import eu.bitcoinsulting.ercv3.BuildConfig;
+import eu.bitcoinsulting.ercv3.R;
 
 /**
  * @author Andreas Schildbach

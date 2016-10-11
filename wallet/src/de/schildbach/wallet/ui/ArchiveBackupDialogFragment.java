@@ -34,7 +34,7 @@ import android.text.Html;
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.util.Toast;
 import de.schildbach.wallet.util.WholeStringBuilder;
-import madzebra.erc.wallet.R;
+import eu.bitcoinsulting.ercv3.R;
 
 /**
  * @author Andreas Schildbach

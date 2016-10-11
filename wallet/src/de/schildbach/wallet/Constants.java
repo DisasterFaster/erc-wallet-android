@@ -31,7 +31,7 @@ import android.text.format.DateUtils;
 
 import com.google.common.io.BaseEncoding;
 
-import madzebra.erc.wallet.R;
+import eu.bitcoinsulting.ercv3.R;
 
 /**
  * @author Andreas Schildbach

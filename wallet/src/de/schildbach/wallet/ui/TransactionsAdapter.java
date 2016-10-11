@@ -57,7 +57,7 @@ import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.util.CircularProgressView;
 import de.schildbach.wallet.util.Formats;
 import de.schildbach.wallet.util.WalletUtils;
-import madzebra.erc.wallet.R;
+import eu.bitcoinsulting.ercv3.R;
 
 /**
  * @author Andreas Schildbach
@@ -398,13 +398,15 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 			if (txCache == null)
 			{
 				final Coin value = tx.getValue(wallet);
-				final boolean sent = value.signum() < 0;
-				final boolean deposit = tx.isDepositLocked();
+				final boolean deposit = tx.isDepositLocked(wallet);
+				final boolean sent = (value.signum() < 0) && !deposit;
 				final int releaseBlock = WalletUtils.getTermDepositReleaseBlock(tx, wallet);
 				final boolean showFee = sent && fee != null && !fee.isZero();
 				final Address address;
 				if (sent)
 					address = WalletUtils.getToAddressOfSent(tx, wallet);
+				else if (deposit)
+					address = WalletUtils.getWalletAddressOfReceivedDeposit(tx, wallet);
 				else
 					address = WalletUtils.getWalletAddressOfReceived(tx, wallet);
 				final String addressLabel = address != null ? AddressBookProvider.resolveLabel(context, address.toBase58()) : null;
@@ -634,7 +636,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 				messageView.setText(R.string.transaction_row_message_received_direct);
 				messageView.setTextColor(colorInsignificant);
 			}
-			else if (!txCache.sent && txCache.deposit)
+			else if (txCache.deposit)
 			{
 				final StringBuilder msg = new StringBuilder();
 				msg.append(context.getString(R.string.transaction_row_message_received_unconfirmed_time_locked, txCache.releaseBlock));

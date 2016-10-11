@@ -30,7 +30,7 @@ import de.schildbach.wallet.WalletApplication;
 import de.schildbach.wallet.ui.WalletActivity;
 import de.schildbach.wallet.ui.send.FeeCategory;
 import de.schildbach.wallet.ui.send.SendCoinsActivity;
-import madzebra.erc.wallet.R;
+import eu.bitcoinsulting.ercv3.R;
 
 import android.app.IntentService;
 import android.app.NotificationManager;

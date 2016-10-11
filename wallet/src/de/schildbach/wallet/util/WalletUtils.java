@@ -130,7 +130,8 @@ public class WalletUtils
 			}
 		}
 
-		return null;
+		// guess we sent ourself
+		return getWalletAddressOfReceived(tx, wallet);
 	}
 
 	@Nullable
@@ -155,6 +156,27 @@ public class WalletUtils
 		return null;
 	}
 
+	// if we sent us deposit, then getWalletAddressOfReceived() can give us change address
+	@Nullable
+	public static Address getWalletAddressOfReceivedDeposit(final Transaction tx, final Wallet wallet)
+	{
+		for (final TransactionOutput output : tx.getOutputs())
+		{
+			try
+			{
+				final Script script = output.getScriptPubKey();
+				if (script.isTermDeposit())
+					return script.getToAddress(Constants.NETWORK_PARAMETERS, true);
+			}
+			catch (final ScriptException x)
+			{
+				// swallow
+			}
+		}
+
+		return null;
+	}
+
 	public static int getTermDepositReleaseBlock(final Transaction tx, final Wallet wallet)
 	{
 		for (final TransactionOutput output : tx.getOutputs())
@@ -164,7 +186,9 @@ public class WalletUtils
 				if (output.isMine(wallet))
 				{
 					final Script script = output.getScriptPubKey();
-					return script.GetTermDepositReleaseBlock();
+					// see specifically for term deposit script
+					if (script.isTermDeposit())
+						return script.getTermDepositReleaseBlock();
 				}
 			}
 			catch (final ScriptException x)
