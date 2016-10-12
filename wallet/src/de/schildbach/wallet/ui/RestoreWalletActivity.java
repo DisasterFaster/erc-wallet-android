@@ -47,7 +47,7 @@ import de.schildbach.wallet.WalletApplication;
 import de.schildbach.wallet.util.Crypto;
 import de.schildbach.wallet.util.Io;
 import de.schildbach.wallet.util.WalletUtils;
-import eu.bitcoinsulting.ercv3.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach

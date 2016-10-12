@@ -31,7 +31,7 @@ import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.data.PaymentIntent;
 import de.schildbach.wallet.ui.AbstractBindServiceActivity;
 import de.schildbach.wallet.ui.HelpDialogFragment;
-import eu.bitcoinsulting.ercv3.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach

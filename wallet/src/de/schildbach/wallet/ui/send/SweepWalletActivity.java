@@ -24,7 +24,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import de.schildbach.wallet.ui.AbstractBindServiceActivity;
-import eu.bitcoinsulting.ercv3.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach

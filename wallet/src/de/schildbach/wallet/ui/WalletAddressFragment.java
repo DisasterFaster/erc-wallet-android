@@ -60,7 +60,7 @@ import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;
 import de.schildbach.wallet.util.Qr;
 import de.schildbach.wallet.util.ThrottlingWalletChangeListener;
-import eu.bitcoinsulting.ercv3.R;
+import madzebra.erc.wallet.R;
 
 /**
  * @author Andreas Schildbach

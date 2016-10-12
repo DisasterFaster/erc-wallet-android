@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	package="eu.bitcoinsulting.ercv3"
+	package="madzebra.erc.wallet"
 	android:installLocation="internalOnly"
 	android:versionCode="30110"
 	android:versionName="3.0.1.1" >
@@ -186,15 +186,15 @@
 
 		<provider
 			android:name="de.schildbach.wallet.AddressBookProvider"
-			android:authorities="eu.bitcoinsulting.ercv3.address_book"
+			android:authorities="madzebra.erc.wallet.address_book"
 			android:exported="false" />
 		<provider
 			android:name="de.schildbach.wallet.ExchangeRatesProvider"
-			android:authorities="eu.bitcoinsulting.ercv3.exchange_rates"
+			android:authorities="madzebra.erc.wallet.exchange_rates"
 			android:exported="false" />
 		<provider
 			android:name="de.schildbach.wallet.FileAttachmentProvider"
-			android:authorities="eu.bitcoinsulting.ercv3.file_attachment"
+			android:authorities="madzebra.erc.wallet.file_attachment"
 			android:exported="false"
 			android:grantUriPermissions="true" />
 
