@@ -12,3 +12,4 @@ local.properties
 bin/
 gen/
 .DS_Store
+*.apk
