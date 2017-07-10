@@ -3,8 +3,8 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	package="madzebra.erc.wallet"
 	android:installLocation="internalOnly"
-	android:versionCode="30210"
-	android:versionName="3.0.2.1" >
+	android:versionCode="30211"
+	android:versionName="3.0.2.1.1" >
 
 	<uses-sdk
 		android:minSdkVersion="15"

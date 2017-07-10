@@ -117,7 +117,7 @@ public class ExchangeRatesProvider extends ContentProvider
 	{
 		try
 		{
-			BITCOINAVERAGE_URL = new URL("https://api.bitcoinaverage.com/custom/abw");
+			BITCOINAVERAGE_URL = new URL("https://apiv2.bitcoinaverage.com/indices/global/ticker/short?crypto=BTC");
 			COINMARKET_URL = new URL("https://api.coinmarketcap.com/v1/ticker/Europecoin/");
 		}
 		catch (final MalformedURLException x)
